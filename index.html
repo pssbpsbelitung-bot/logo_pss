@@ -10,13 +10,13 @@
 body{
   margin:0;
   font-family:Inter, Arial, sans-serif;
-  background:var(--bg-soft);
+  background:#f8fafc;
   color:#111827;
 }
 
 /* HEADER */
 .header{
-  background:linear-gradient(90deg,var(--bps-dark),var(--bps-blue));
+  background:linear-gradient(90deg,#0f172a,#1d4ed8);
   color:#fff;
   padding:16px 24px;
   display:flex;
@@ -52,29 +52,41 @@ body{
   margin-bottom:4px;
   transition:.2s;
 }
-.menu a:hover{
-  background:#f1f5f9;
-}
+.menu a:hover{background:#f1f5f9}
 .menu a.active{
   background:#e0f2fe;
-  color:var(--bps-blue);
+  color:#1d4ed8;
   font-weight:600;
-  border-left:4px solid var(--bps-blue);
+  border-left:4px solid #1d4ed8;
 }
 
 /* MAIN */
 .main{flex:1;background:#fff}
 iframe{width:100%;height:100%;border:none}
 
-/* CARD */
+/* HOME */
 .welcome{padding:32px}
+
+/* CARD */
 .card{
   background:#fff;
   border:1px solid #e5e7eb;
   border-radius:16px;
-  padding:20px;
+  padding:18px;
   margin-bottom:16px;
   box-shadow:0 4px 12px rgba(0,0,0,.04);
+}
+.antrian-card{
+  max-width:900px;
+  border-left:6px solid #16a34a;
+}
+
+/* SECTION */
+.home-section{margin-top:32px}
+.section-title{
+  margin:0 0 12px 8px;
+  font-size:20px;
+  font-weight:600;
 }
 
 /* CAROUSEL */
@@ -89,9 +101,9 @@ iframe{width:100%;height:100%;border:none}
 .carousel::-webkit-scrollbar{display:none}
 
 .slide{
-  min-width:320px;
+  min-width:300px;
   background:#fff;
-  border-radius:18px;
+  border-radius:16px;
   overflow:hidden;
   border:1px solid #e5e7eb;
   cursor:pointer;
@@ -103,10 +115,10 @@ iframe{width:100%;height:100%;border:none}
 }
 .slide img{
   width:100%;
-  height:180px;
+  height:160px;
   object-fit:cover;
 }
-.caption{padding:16px}
+.caption{padding:14px}
 .caption h3{margin:0}
 .caption p{margin:4px 0;color:#6b7280}
 
@@ -115,24 +127,17 @@ iframe{width:100%;height:100%;border:none}
   position:absolute;
   top:50%;
   transform:translateY(-50%);
-  background:var(--bps-blue);
+  background:#1d4ed8;
   color:#fff;
   border:none;
-  width:40px;
-  height:40px;
+  width:38px;
+  height:38px;
   border-radius:50%;
   font-size:22px;
   cursor:pointer;
 }
-.nav.left{left:-14px}
-.nav.right{right:-14px}
-
-:root{
-  --bps-blue:#1d4ed8;
-  --bps-dark:#0f172a;
-  --bps-green:#16a34a;
-  --bg-soft:#f8fafc;
-}
+.nav.left{left:-12px}
+.nav.right{right:-12px}
 </style>
 </head>
 
@@ -150,79 +155,116 @@ iframe{width:100%;height:100%;border:none}
   <div class="menu">
 
     <div class="menu-title">Umum</div>
-    <a href="#" onclick="loadHome()" class="active" id="menu-home">Beranda</a>
+    <a href="#" class="active" onclick="showHome(this)">Beranda</a>
+    <a href="#" onclick="openExternal('https://lapor.go.id/')">🗣️ LAPOR!</a>
 
     <div class="menu-title">Layanan Data</div>
-    <a href="#" onclick="openExternal('https://belitungkab.bps.go.id')">Website Resmi BPS ↗</a>
-    <a href="#" onclick="openExternal('https://s.bps.go.id/pelandok')">Pelandok ↗</a>
+    <a href="#" onclick="openExternal('https://belitungkab.bps.go.id')">Website BPS Belitung</a>
+    <a href="#" onclick="showFrame(this,'https://s.bps.go.id/pelandok')">Pelandok</a>
 
     <div class="menu-title">Layanan Nasional</div>
-    <a href="#" onclick="openExternal('https://perpustakaan.bps.go.id/opac/')">📚 Perpustakaan BPS ↗</a>
-    <a href="#" onclick="openExternal('https://silastik.bps.go.id/v3/index.php/site/login/')">📊 SILASTIK ↗</a>
-    <a href="#" onclick="openExternal('https://lapor.go.id/')">🗣️ LAPOR! ↗</a>
+    <a href="#" onclick="openExternal('https://perpustakaan.bps.go.id/opac/')">📚 Perpustakaan BPS</a>
+    <a href="#" onclick="openExternal('https://silastik.bps.go.id/v3/index.php/site/login/')">📊 SILASTIK</a>
+    <a href="#" onclick="openExternal('https://romantik.web.bps.go.id')">Rekomendasi Statistik</a>
+    <a href="#" onclick="openExternal('https://indah.bps.go.id')">Metadata Statistik</a>
 
     <div class="menu-title">Layanan PST</div>
-    <a href="#" onclick="loadAntrian(this)">🎟️ Antrian Kunjungan</a>
-
-    <div class="menu-title">Informasi</div>
-    <a href="#">Tentang PST</a>
+    <a href="#" onclick="showFrame(this,'https://pssbpsbelitung-bot.github.io/antrian-online/')">🎟️ Antrian Kunjungan</a>
+    <a href="#" onclick="showFrame(this,'https://pssbpsbelitung-bot.github.io/tentangPST/')">ℹ️ Tentang PST</a>
 
   </div>
 </div>
 
 <!-- MAIN -->
-<div class="main" id="mainContent">
-  <div class="welcome">
+<div class="main">
 
-    <div class="card">
-      <h2>Selamat Datang di Virtual Office PST</h2>
-      <p>
-        Portal layanan terpadu untuk mengakses data statistik,
-        layanan nasional, dan pelayanan PST BPS Kabupaten Belitung.
-      </p>
-    </div>
+<div id="homeContent" class="welcome">
 
-    <div class="card" style="border-left:6px solid var(--bps-green)">
-      <h2>🎟️ Antrian Kunjungan PST</h2>
-      <p>Ambil nomor antrian kunjungan secara online.</p>
-      <button onclick="loadAntrian()"
-        style="
-          margin-top:12px;
-          padding:12px 20px;
-          background:var(--bps-green);
-          color:#fff;
-          border:none;
-          border-radius:10px;
-          font-size:15px;
-          cursor:pointer">
-        Buka Antrian
-      </button>
-    </div>
-
+  <div class="card">
+    <h2>Selamat Datang di Virtual Office PST</h2>
+    <p>Portal layanan terpadu data statistik dan pelayanan PST BPS Kabupaten Belitung.</p>
   </div>
+
+  <div class="card antrian-card">
+    <h2>🎟️ Antrian Kunjungan PST</h2>
+    <p>Ambil nomor antrian sebelum datang langsung ke kantor PST.</p>
+    <button onclick="showFrame(null,'https://pssbpsbelitung-bot.github.io/antrian-online/')"
+      style="margin-top:10px;padding:10px 18px;background:#16a34a;color:#fff;border:none;border-radius:10px;cursor:pointer">
+      Ambil Antrian Sekarang
+    </button>
+  </div>
+
+  <!-- CAROUSEL -->
+  <div class="home-section">
+    <h2 class="section-title">Layanan Unggulan</h2>
+
+    <div class="carousel-wrapper">
+      <button class="nav left" onclick="scrollCarousel(-1)">‹</button>
+
+      <div class="carousel" id="carousel">
+        <div class="slide" onclick="openExternal('https://belitungkab.bps.go.id')">
+          <img src="img/beranda-bps.png">
+          <div class="caption"><h3>Website Resmi BPS</h3><p>Publikasi & Statistik Resmi</p></div>
+        </div>
+
+        <div class="slide" onclick="openExternal('https://perpustakaan.bps.go.id/opac/')">
+          <img src="img/beranda-perpusbps.png">
+          <div class="caption"><h3>Perpustakaan BPS</h3><p>Katalog & Publikasi Statistik</p></div>
+        </div>
+
+        <div class="slide" onclick="openExternal('https://silastik.bps.go.id/v3/index.php/site/login/')">
+          <img src="img/beranda-silastik.png">
+          <div class="caption"><h3>SILASTIK</h3><p>Sistem Layanan Statistik</p></div>
+        </div>
+      
+
+<div class="slide" onclick="openExternal('https://romantik.web.bps.go.id/')">
+          <img src="img/beranda-silastik.png">
+          <div class="caption"><h3>ROMANTIK</h3><p>Layanan Rekomendasi Statistik</p></div>
+        </div>
+      
+
+<div class="slide" onclick="openExternal('https://indah.bps.go.id/')">
+          <img src="img/beranda-silastik.png">
+          <div class="caption"><h3>METADATA</h3><p>Layanan Metadata Statistik</p></div>
+        </div>
+      
+
+      <button class="nav right" onclick="scrollCarousel(1)">›</button>
+    </div>
+  </div>
+
 </div>
 
+<div id="frameContent" style="display:none;height:100%">
+  <iframe id="appFrame"></iframe>
+</div>
+
+</div>
 </div>
 
 <script>
 function resetMenu(){
   document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
 }
-
-function openExternal(url){
-  window.open(url, "_blank");
-}
-
-function loadAntrian(el){
+function showHome(el){
   resetMenu();
   if(el) el.classList.add('active');
-  document.getElementById("mainContent").innerHTML =
-    `<iframe src="https://pssbpsbelitung-bot.github.io/antrian-online/"></iframe>`;
+  homeContent.style.display="block";
+  frameContent.style.display="none";
+}
+function showFrame(el,url){
+  resetMenu();
+  if(el) el.classList.add('active');
+  homeContent.style.display="none";
+  frameContent.style.display="block";
+  appFrame.src=url;
+}
+function openExternal(url){window.open(url,"_blank")}
+function scrollCarousel(dir){
+  document.getElementById("carousel").scrollLeft+=dir*320;
 }
 
-function loadHome(){
-  location.reload();
-}
 </script>
 
 </body>
