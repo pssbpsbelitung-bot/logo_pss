@@ -110,7 +110,7 @@ iframe{width:100%;height:100%;border:none}
 .caption h3{margin:0}
 .caption p{margin:4px 0;color:#6b7280}
 
-/* NAV BUTTON */
+/* NAV */
 .nav{
   position:absolute;
   top:50%;
@@ -131,7 +131,6 @@ iframe{width:100%;height:100%;border:none}
   --bps-blue:#1d4ed8;
   --bps-dark:#0f172a;
   --bps-green:#16a34a;
-  --bps-orange:#f97316;
   --bg-soft:#f8fafc;
 }
 </style>
@@ -155,7 +154,6 @@ iframe{width:100%;height:100%;border:none}
 
     <div class="menu-title">Layanan Data</div>
     <a href="#" onclick="openExternal('https://belitungkab.bps.go.id')">Website Resmi BPS ↗</a>
-    <a href="#" onclick="openExternal('https://s.bps.go.id/kelekak-data')">Kelekak Data ↗</a>
     <a href="#" onclick="openExternal('https://s.bps.go.id/pelandok')">Pelandok ↗</a>
 
     <div class="menu-title">Layanan Nasional</div>
@@ -164,9 +162,7 @@ iframe{width:100%;height:100%;border:none}
     <a href="#" onclick="openExternal('https://lapor.go.id/')">🗣️ LAPOR! ↗</a>
 
     <div class="menu-title">Layanan PST</div>
-    <a href="#" onclick="openExternal('https://pssbpsbelitung-bot.github.io/antrian-online/')">
-      🎟️ Antrian Kunjungan
-    </a>
+    <a href="#" onclick="loadAntrian(this)">🎟️ Antrian Kunjungan</a>
 
     <div class="menu-title">Informasi</div>
     <a href="#">Tentang PST</a>
@@ -188,10 +184,8 @@ iframe{width:100%;height:100%;border:none}
 
     <div class="card" style="border-left:6px solid var(--bps-green)">
       <h2>🎟️ Antrian Kunjungan PST</h2>
-      <p>
-        Ambil nomor antrian sebelum datang langsung ke kantor PST.
-      </p>
-      <button onclick="openExternal('https://pssbpsbelitung-bot.github.io/antrian-online/')"
+      <p>Ambil nomor antrian kunjungan secara online.</p>
+      <button onclick="loadAntrian()"
         style="
           margin-top:12px;
           padding:12px 20px;
@@ -201,50 +195,8 @@ iframe{width:100%;height:100%;border:none}
           border-radius:10px;
           font-size:15px;
           cursor:pointer">
-        Ambil Antrian Sekarang
+        Buka Antrian
       </button>
-    </div>
-
-    <div class="carousel-wrapper">
-      <button class="nav left" onclick="scrollCarousel(-1)">‹</button>
-
-      <div class="carousel" id="carousel">
-
-        <div class="slide" onclick="openExternal('https://belitungkab.bps.go.id')">
-          <img src="img/beranda-bps.png">
-          <div class="caption">
-            <h3>Website Resmi BPS</h3>
-            <p>Publikasi & Statistik Resmi</p>
-          </div>
-        </div>
-
-        <div class="slide" onclick="openExternal('https://perpustakaan.bps.go.id/opac/')">
-          <img src="img/beranda-perpusbps.png">
-          <div class="caption">
-            <h3>Perpustakaan BPS</h3>
-            <p>Katalog & Publikasi Statistik</p>
-          </div>
-        </div>
-
-        <div class="slide" onclick="openExternal('https://silastik.bps.go.id/v3/index.php/site/login/')">
-          <img src="img/beranda-silastik.png">
-          <div class="caption">
-            <h3>SILASTIK</h3>
-            <p>Sistem Layanan Statistik</p>
-          </div>
-        </div>
-
-        <div class="slide" onclick="openExternal('https://lapor.go.id/')">
-          <img src="img/beranda-lapor.png">
-          <div class="caption">
-            <h3>LAPOR!</h3>
-            <p>Layanan Aspirasi & Pengaduan</p>
-          </div>
-        </div>
-
-      </div>
-
-      <button class="nav right" onclick="scrollCarousel(1)">›</button>
     </div>
 
   </div>
@@ -253,12 +205,19 @@ iframe{width:100%;height:100%;border:none}
 </div>
 
 <script>
-function scrollCarousel(dir){
-  document.getElementById("carousel").scrollLeft += dir * 340;
+function resetMenu(){
+  document.querySelectorAll('.menu a').forEach(a=>a.classList.remove('active'));
 }
 
 function openExternal(url){
   window.open(url, "_blank");
+}
+
+function loadAntrian(el){
+  resetMenu();
+  if(el) el.classList.add('active');
+  document.getElementById("mainContent").innerHTML =
+    `<iframe src="https://pssbpsbelitung-bot.github.io/antrian-online/"></iframe>`;
 }
 
 function loadHome(){
